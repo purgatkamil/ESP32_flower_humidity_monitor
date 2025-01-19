@@ -1,4 +1,5 @@
 #include "wifi.h"
+#include "wifi_credentials.h"
 
 #define WIFI_CONNECTION_MAX_RETRY 5
 #define NETIF_DESC_STA "netif_sta"
@@ -27,17 +28,27 @@ bool wifi_init(void)
     ESP_LOGI(TAG, "Initializing ESP32 WiFi module");
     wifi_module_start();
 
+    char ssid[50];
+    char password[50];
+
+    read_credentials(ssid, password);
+
     wifi_config_t wifi_config =
     {
         .sta = {
-            .ssid = "POCO F5 Pro",
-            .password = "qwerty12345",
+            .ssid = "",
+            .password = "",
             .scan_method = WIFI_FAST_SCAN,
             .sort_method = WIFI_CONNECT_AP_BY_SIGNAL,
             .threshold.rssi = -127,
             .threshold.authmode = WIFI_AUTH_WPA2_PSK,
         },
     };
+
+    strncpy((char*)wifi_config.sta.ssid, ssid, sizeof(wifi_config.sta.ssid) - 1);
+    wifi_config.sta.ssid[sizeof(wifi_config.sta.ssid) - 1] = '\0';
+    strncpy((char*)wifi_config.sta.password, password, sizeof(wifi_config.sta.password) - 1);
+    wifi_config.sta.password[sizeof(wifi_config.sta.password) - 1] = '\0';
 
     ESP_LOGI(TAG, "Connecting to WiFi...");
     if (wifi_connect_as_station(wifi_config, true) != ESP_OK)
