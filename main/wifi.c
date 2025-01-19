@@ -4,7 +4,7 @@
 #define WIFI_CONNECTION_MAX_RETRY 5
 #define NETIF_DESC_STA "netif_sta"
 
-static const char *TAG = "WIFI_INIT";
+static const char *TAG = "WIFI";
 
 static esp_netif_t *s_sta_netif = NULL;
 static SemaphoreHandle_t s_semph_get_ip_addrs = NULL;
