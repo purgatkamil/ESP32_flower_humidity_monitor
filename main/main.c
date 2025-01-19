@@ -8,6 +8,7 @@
 
 #include "wifi.h"
 #include "spiffs.h"
+#include "bluetooth_client.h"
 
 void app_main(void)
 {
@@ -17,4 +18,5 @@ void app_main(void)
     spiffs_init();
     spiffs_list_files();
     wifi_init();
+    bluetooth_client_init();
 }
